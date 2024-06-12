@@ -3,15 +3,28 @@ package com.heider.helpdesk.domain;
 import java.time.LocalDate;
 import java.util.Objects;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import com.heider.helpdesk.domain.enums.Prioridade;
 import com.heider.helpdesk.domain.enums.Status;
 
+import jakarta.persistence.Entity;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
+import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.ManyToOne;
+
+@Entity
 public class Chamado {
 
+	@Id
+	@GeneratedValue(strategy = GenerationType.IDENTITY)	
 	private Integer id;
 	
+	@JsonFormat(pattern = "dd/MM/yyyy")
 	private LocalDate dataAbertura = LocalDate.now();
 	
+	@JsonFormat(pattern = "dd/MM/yyyy")
 	private LocalDate dataFechamento = LocalDate.now();
 	
 	private Prioridade prioridade;
@@ -22,8 +35,12 @@ public class Chamado {
 	
 	private String observacoes;
 	
+	@ManyToOne
+	@JoinColumn(name = "tecnico_id")
 	private Tecnico tecnico;
 	
+	@ManyToOne
+	@JoinColumn(name = "cliente_id")
 	private Cliente cliente;
 
 	public Chamado() {
